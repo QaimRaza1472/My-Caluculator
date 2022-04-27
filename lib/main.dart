@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'scientificCalculator.dart';
@@ -24,3 +25,34 @@ class MyApp extends StatelessWidget {
   }
 }
 
+*/
+///////////////////////////////////// Currency Converter //////////////////////
+
+
+
+
+
+import 'package:calculatior_1/Testing/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'Currency Exchange/currmodel.dart';
+import 'Currency Exchange/homepage.dart';
+//import 'Currency Exchange/homepage.dart';
+
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => CurrModel(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+
+      ),
+    );
+  }
+}
