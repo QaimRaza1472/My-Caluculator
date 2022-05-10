@@ -49,6 +49,9 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CurrModel(),
       child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+        ),
         debugShowCheckedModeBanner: false,
         home: HomeScreen(),
 

@@ -1,4 +1,7 @@
 
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'Models/currency_exchange_model.dart';
@@ -17,15 +20,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<Currency>? _cocktailModel;
 
-/*
   @override
   void initState() {
+    currency_exchange(from.toString(), to.toString(), quantity.toString());
 
-*//*    setState(() {
+    /*setState(() {
       _cocktailModel = Api_Manager().getData('CAD','PHP','10');
-    });*//*
+    });*/
 
-    _cocktailModel = Api_Manager().getData('CAD','PHP','10');
+    //_cocktailModel = Api_Manager().getData('CAD','PHP','10');
 
    // _cocktailModel = Api_Manager().getData(from.toString(), to.toString(), quantity.toString());
 
@@ -33,9 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
     print(_cocktailModel.toString());
     print("-----------------------------------------------");
     super.initState();
-  }*/
+  }
 
-
+/*
   List<String>? currencyName = [
     'CAD',
     'HKD',
@@ -71,14 +74,177 @@ class _HomeScreenState extends State<HomeScreen> {
     'KRW',
     'PLN',
   ];
-  String? from, to, quantity;
 
+  */
+
+
+  List<String>? currencyName = [
+  "AED",
+  "AFN",
+  "ALL",
+  "AMD",
+  "ANG",
+  "AOA",
+  "ARS",
+  "AUD",
+  "AWG",
+  "AZN",
+  "BAM",
+  "BBD",
+  "BDT",
+  "BGN",
+  "BHD",
+  "BIF",
+  "BMD",
+  "BND",
+  "BOB",
+  "BRL",
+  "BSD",
+  "BTN",
+  "BWP",
+  "BYN",
+  "BZD",
+  "CAD",
+  "CDF",
+  "CHF",
+  "CLP",
+  "CNY",
+  "COP",
+  "CRC",
+  "CUP",
+  "CVE",
+  "CZK",
+  "DJF",
+  "DKK",
+  "DOP",
+  "DZD",
+  "EGP",
+  "ERN",
+  "ETB",
+  "EUR",
+  "FJD",
+  "FKP",
+  "GBP",
+  "GEL",
+  "GHS",
+  "GIP",
+  "GMD",
+  "GNF",
+  "GTQ",
+  "GYD",
+  "HKD",
+  "HNL",
+  "HRK",
+  "HTG",
+  "HUF",
+  "IDR",
+  "ILS",
+  "INR",
+  "IQD",
+  "IRR",
+  "ISK",
+  "JMD",
+  "JOD",
+  "JPY",
+  "KES",
+  "KGS",
+  "KHR",
+  "KMF",
+  "KPW",
+  "KRW",
+  "KWD",
+  "KYD",
+  "KZT",
+  "LAK",
+  "LBP",
+  "LKR",
+  "LRD",
+  "LYD",
+  "MAD",
+  "MDL",
+  "MGA",
+  "MKD",
+  "MMK",
+  "MNT",
+  "MOP",
+  "MRU",
+  "MUR",
+  "MVR",
+  "MWK",
+  "MXN",
+  "MYR",
+  "MZN",
+  "NAD",
+  "NGN",
+  "NIO",
+  "NOK",
+  "NPR",
+  "NZD",
+  "OMR",
+  "PAB",
+  "PEN",
+  "PGK",
+  "PHP",
+  "PKR",
+  "PLN",
+  "PYG",
+  "QAR",
+  "RON",
+  "RSD",
+  "RUB",
+  "RWF",
+  "SAR",
+  "SBD",
+  "SCR",
+  "SDG",
+  "SEK",
+  "SGD",
+  "SHP",
+  "SLL",
+  "SOS",
+  "SRD",
+  "SSP",
+  "STN",
+  "SYP",
+  "SZL",
+  "THB",
+  "TJS",
+  "TMT",
+  "TND",
+  "TOP",
+  "TRY",
+  "TTD",
+  "TWD",
+  "TZS",
+  "UAH",
+  "UGX",
+  "USD",
+  "UYU",
+  "UZS",
+  "VES",
+  "VND",
+  "VUV",
+  "WST",
+  "XAF",
+  "XCD",
+  "XDR",
+  "XOF",
+  "XPF",
+  "YER",
+  "ZAR",
+  "ZMW",
+  ];
+
+
+
+
+  String? from, to, quantity;
 
   int? select;
 
-  void currency_exchange(){
+  void currency_exchange(String fromCurrency, String toCurrency, String currencyValue){
     setState(() {
-      _cocktailModel = Api_Manager().getData(from.toString(), to.toString(), quantity.toString());
+      _cocktailModel = Api_Manager().getData(fromCurrency, toCurrency, currencyValue);
     });
   }
 
@@ -90,8 +256,9 @@ class _HomeScreenState extends State<HomeScreen> {
     var height1=MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Api Testing"),
+        title: const Text("Currency Exchange"),
         centerTitle: true,
+        backgroundColor: Colors.indigo,
       ),
       body: Container(
         height:height1,
@@ -104,6 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: 130,
                 width: double.infinity,
+
                 //color: Colors.yellow,
                 child: FutureBuilder<Currency>(
                     future: _cocktailModel,
@@ -161,8 +329,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Container(
                                                     //width: 45,
                                                    // color: Colors.green,
-                                                    child:  Text(snapshot.data!.baseCurrencyCode.toString(),
-                                                      style: TextStyle(
+                                                    child:  Text(snapshot.data!.baseCurrencyCode.toString()+ ":",
+                                                      style: const TextStyle(
                                                           color: Colors.black87,
                                                           fontWeight: FontWeight.bold
                                                       ),
@@ -180,32 +348,62 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   //NetworkImage(flips.url),
                                                   Container(
                                                     //width: 45,
-                                                    child:  Text(snapshot.data!.rates!.gbp!.currencyName.toString(),
-                                                      style: const TextStyle(
-                                                          color: Colors.black87,
-                                                          fontWeight: FontWeight.bold
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Text(snapshot.data!.rates!.gbp!.rate.toString()),
-                                                ],
-                                              ),
-
-
-                                     /*         Row(
-                                                children: [
-                                                  //NetworkImage(flips.url),
-                                                  Container(
-                                                    width: 45,
-                                                    child: const Text("D1:",
+                                                    child:  const Text(
+                                                      "Name: ",
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString(),
                                                       style: TextStyle(
                                                           color: Colors.black87,
                                                           fontWeight: FontWeight.bold
                                                       ),
                                                     ),
                                                   ),
+                                                  Text(
+                                                      snapshot.data!.rates!.gbp!.currencyName.toString()
+                                                    //snapshot.data!.rates!.gbp!.rate.toString(),
+                                                  ),
                                                 ],
-                                              ),*/
+                                              ),
+
+
+                                              const SizedBox(height: 5,),
+                                              Row(
+                                                children: [
+                                                  //NetworkImage(flips.url),
+                                                  Container(
+                                                    //width: 45,
+                                                    child:  const Text(
+                                                      "Rate: ",
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString()
+                                                    snapshot.data!.rates!.gbp!.rate.toString(),
+                                                  ),
+                                                ],
+                                              ),
+
+
+                                              const SizedBox(height: 5,),
+                                              Row(
+                                                children: [
+                                                  //NetworkImage(flips.url),
+                                                  Container(
+                                                    //width: 45,
+                                                    child:  const Text("Converted:",
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(snapshot.data!.rates!.gbp!.rateForAmount.toString()),
+                                                ],
+                                              ),
 
 
 
@@ -222,15 +420,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                       else {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: Text("Choose Currency",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          ),
+                          //child: CircularProgressIndicator(),
                         );
                       }
                     }
                 ),
               ),
               Container(
+                //color: Colors.yellow,
                 height: MediaQuery.of(context).size.height * 0.50,
-                width: MediaQuery.of(context).size.width * 0.85,
+                width: MediaQuery.of(context).size.width * 0.86,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -241,18 +447,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icon(Icons.arrow_downward),
                           iconSize: 24,
                           elevation: 16,
-                          style: TextStyle(color: Colors.deepPurple),
+                          style: TextStyle(color: Colors.indigo),
                           underline: Container(
                             height: 2,
-                            color: Colors.deepPurpleAccent,
+                            color: Colors.indigo,
+                            //color: Colors.deepPurpleAccent,
                           ),
-                          dropdownColor: Colors.amber[300],
-                          hint: Text(from == null ? 'FROM' : from ??" "),
+                          //dropdownColor: Colors.amber[300],
+                          dropdownColor:  Colors.white,
+                          hint: Text(from == null ? 'FROM' : from ??" ",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          ),
                           value: from,
                           items: currencyName?.map((value) {
                             return DropdownMenuItem(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                ),
+                              ),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -266,18 +483,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icon(Icons.arrow_downward),
                           iconSize: 24,
                           elevation: 16,
-                          style: TextStyle(color: Colors.deepPurple),
+                          style: TextStyle(color: Colors.indigo),
                           underline: Container(
                             height: 2,
-                            color: Colors.deepPurpleAccent,
+                            color: Colors.indigo,
                           ),
-                          dropdownColor: Colors.amber[300],
-                          hint: Text(to == null ? 'TO' : to ??""),
+                          dropdownColor:  Colors.white,
+                          hint: Text(to == null ? 'TO' : to ??"",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              //  color: Colors.grey
+                            ),
+                          ),
                           value: to,
                           items: currencyName?.map((value) {
                             return DropdownMenuItem(
                               value: value,
-                              child: Text(value),
+                              child: Text(value,
+                                style: TextStyle(
+                                 // fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -289,20 +516,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     TextField(
+                      cursorColor: Colors.black,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
+                      decoration:  const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                          labelText: 'Quantity',
-                          labelStyle: TextStyle(color: Colors.black)),
+                              borderSide: BorderSide(
+                              color: Colors.indigo,
+                                width: 1.5,
+                              )),
+                        hintText: 'Enter Currency',
+                      ),
                       onChanged: (val) => setState(() => quantity = val),
                     ),
                     OutlineButton(
+                      color: Colors.yellow,
                       borderSide: const BorderSide(
-                        color: Colors.red, //Color of the border
+                        color: Colors.indigo, //Color of the border
                         style: BorderStyle.solid, //Style of the border
-                        width: 0.8, //width of the border
+                        width: 1.2, //width of the border
                       ),
+
                 /*      onPressed: () {
                         currency_exchange();
                        // Api_Manager().getData(from.toString(), to.toString(), quantity.toString());
@@ -311,12 +544,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pop(context);
                         print("************${from.toString()}***********${to.toString()}*****************${quantity.toString()}");
                       },*/
-
-
                       onPressed:(){
-                        currency_exchange();
+                        print("************${from.toString()}***********${to.toString()}*****************${quantity.toString()}");
+                        currency_exchange(from.toString(), to.toString(), quantity.toString());
                       },
-                      child: Text("Add"),
+                      child: Text("CONVERT",
+                      style: TextStyle(
+                          color:Colors.indigo
+                      ),
+                      ),
                     ),
                   ],
                 ),

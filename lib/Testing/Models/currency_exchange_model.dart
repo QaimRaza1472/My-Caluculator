@@ -6,7 +6,10 @@ import 'dart:convert';
 
 Currency currencyFromJson(String str) => Currency.fromJson(json.decode(str));
 
-String currencyToJson(Currency data) => json.encode(data.toJson());
+// String currencyToJson(Currency data) {
+//   var abc = data.rates.gbp;
+//   return json.encode(data.toJson());
+// };
 
 class Currency {
   Currency({
@@ -34,31 +37,34 @@ class Currency {
     status: json["status"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "base_currency_code": baseCurrencyCode,
-    "base_currency_name": baseCurrencyName,
-    "amount": amount,
-    "updated_date": "${updatedDate!.year.toString().padLeft(4, '0')}-${updatedDate!.month.toString().padLeft(2, '0')}-${updatedDate!.day.toString().padLeft(2, '0')}",
-    "rates": rates!.toJson(),
-    "status": status,
-  };
+  // Map<String, dynamic> toJson() => {
+  //   "base_currency_code": baseCurrencyCode,
+  //   "base_currency_name": baseCurrencyName,
+  //   "amount": amount,
+  //   "updated_date": "${updatedDate!.year.toString().padLeft(4, '0')}-${updatedDate!.month.toString().padLeft(2, '0')}-${updatedDate!.day.toString().padLeft(2, '0')}",
+  //   "rates": rates!.toJson(),
+  //   "status": status,
+  // };
 }
+
+
 
 class Rates {
-  Rates({
-    this.gbp,
-  });
-
+  Rates({this.gbp,});
   Gbp? gbp;
 
-  factory Rates.fromJson(Map<String, dynamic> json) => Rates(
-    gbp: Gbp.fromJson(json["GBP"]),
-  );
+  factory Rates.fromJson(Map<String, dynamic> json) {
+    print("json.keys: ${json.keys.first}");
+    return Rates(
+      gbp: Gbp.fromJson(json[json.keys.first.toString()]),
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    "GBP": gbp!.toJson(),
-  };
+  /*Map<String, dynamic> toJson(key) => {
+    key: gbp!.toJson(),
+  };*/
 }
+
 
 class Gbp {
   Gbp({
@@ -66,7 +72,6 @@ class Gbp {
     this.rate,
     this.rateForAmount,
   });
-
   String? currencyName;
   String? rate;
   String? rateForAmount;
