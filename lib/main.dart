@@ -1,6 +1,6 @@
 /*
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'exchange_screen.dart';
 import 'scientificCalculator.dart';
 
 void main() => runApp(MyApp());
@@ -32,13 +32,12 @@ class MyApp extends StatelessWidget {
 
 
 
-import 'package:calculatior_1/Testing/home_screen.dart';
+import 'package:calculatior_1/Testing/exchange_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'Currency Exchange/currmodel.dart';
 import 'Currency Exchange/homepage.dart';
-//import 'Currency Exchange/homepage.dart';
+import 'home_screen.dart';
 
 
 void main() => runApp(MyApp());
@@ -53,6 +52,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
         ),
         debugShowCheckedModeBanner: false,
+        //home: CurrencyExchange(),
         home: HomeScreen(),
 
       ),

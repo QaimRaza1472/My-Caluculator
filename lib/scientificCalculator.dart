@@ -241,12 +241,11 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    /*  appBar: AppBar(
+      appBar: AppBar(
         title: Text('Calculator'),
         centerTitle: true,
         elevation: 3,
       ),
-*/
       body: Container(
         child: Column(
           children: <Widget>[

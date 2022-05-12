@@ -2,6 +2,8 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:calculatior_1/scientificCalculator.dart';
 import 'package:flutter/material.dart';
 
+import 'Testing/exchange_screen.dart';
+
  class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body:_currentIndex==0?
         ScientificCalculator():
         _currentIndex==1?
-             Container()
+            CurrencyExchange()
             :Container(
           color: Colors.yellow,
         )

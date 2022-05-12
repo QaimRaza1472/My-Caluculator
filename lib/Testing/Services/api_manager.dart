@@ -11,7 +11,6 @@ class Api_Manager{
     var cocktailModel = null;
 
   //  String apiurl = 'https://api.getgeoapi.com/v2/currency/convert?api_key=fdb22cd1905d7f1181acafc527ea8b66105bb35a&from=$from&to=$to&amount=$quantity&format=json';
-
     try{
       var response = await client.get(
           Uri.parse(

@@ -1,29 +1,25 @@
-
-
 import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'Models/currency_exchange_model.dart';
 import 'Services/api_manager.dart';
 
 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class CurrencyExchange extends StatefulWidget {
+  const CurrencyExchange({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _CurrencyExchangeState createState() => _CurrencyExchangeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _CurrencyExchangeState extends State<CurrencyExchange> {
 
   Future<Currency>? _cocktailModel;
 
   @override
   void initState() {
     currency_exchange(from.toString(), to.toString(), quantity.toString());
-
     /*setState(() {
       _cocktailModel = Api_Manager().getData('CAD','PHP','10');
     });*/
@@ -52,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'SEK',
     'IDR',
     'INR',
-    'BRL',
+    'BRL',k
     'RUB',
     'HRK',
     'JPY',
@@ -248,11 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    var widht1 = MediaQuery.of(context).size.width;
+    var width1 = MediaQuery.of(context).size.width;
     var height1=MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -262,16 +256,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
         height:height1,
-        width: widht1,
+        width: width1,
        // color: Colors.green,
        // color: Colors.green,
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 18,),
               Container(
                 height: 130,
                 width: double.infinity,
-
                 //color: Colors.yellow,
                 child: FutureBuilder<Currency>(
                     future: _cocktailModel,
@@ -283,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context,index){
                               //var cocktails =  snapshot.data!.updatedDate;
                               //print(object)
-                              return Padding(
+                              /*return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: GestureDetector(
                                   onTap: (){
@@ -311,13 +305,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Row(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                         /* Container(
+
+                                         *//* Container(
                                             height: select==index ? 80:70,
                                             width: select==index ? 80:70,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
-                                          ),*/
+                                          ),*//*
+
                                           const SizedBox(width: 10,),
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,7 +325,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Container(
                                                     //width: 45,
                                                    // color: Colors.green,
-                                                    child:  Text(snapshot.data!.baseCurrencyCode.toString()+ ":",
+                                                    child:  Text(
+                                                      snapshot.data!.baseCurrencyCode.toString()+ ":",
                                                       style: const TextStyle(
                                                           color: Colors.black87,
                                                           fontWeight: FontWeight.bold
@@ -338,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                   Container(
                                                    // color: Colors.yellow,
-                                                      width: widht1*0.57,
+                                                      width: width1*0.57,
                                                       child: Text(snapshot.data!.amount.toString())),
                                                 ],
                                               ),
@@ -363,8 +360,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ],
                                               ),
-
-
                                               const SizedBox(height: 5,),
                                               Row(
                                                 children: [
@@ -386,8 +381,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ],
                                               ),
-
-
                                               const SizedBox(height: 5,),
                                               Row(
                                                 children: [
@@ -404,11 +397,218 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Text(snapshot.data!.rates!.gbp!.rateForAmount.toString()),
                                                 ],
                                               ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );*/
+                              ///////////////////////////////
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      select = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 110,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color:select==index ? Colors.white : Colors.white,
+                                      borderRadius: BorderRadius.circular(9),
+                                      boxShadow:  [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.4),
+                                          offset: const Offset(0, 0),
+                                          spreadRadius: 3,
+                                          blurRadius: 5,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child:Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child:  Text(
+                                                  snapshot.data!.baseCurrencyName.toString()+": ",
+                                                  style: const TextStyle(
+                                                      color: Colors.indigo,
 
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                  child: Text(snapshot.data!.amount.toString(),
+                                                  style: const TextStyle(
+                                                      color: Colors.indigo,
+                                                      fontWeight: FontWeight.w500,
+                                                  ),
+                                                  )
+                                              ),
 
+                                       /*       const SizedBox(height: 5,),
+                                              Row(
+                                                children: [
+                                                  //NetworkImage(flips.url),
+                                                  Container(
+                                                    //width: 45,
+                                                    child:  const Text(
+                                                      "Name: ",
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      snapshot.data!.rates!.gbp!.currencyName.toString()
+                                                    //snapshot.data!.rates!.gbp!.rate.toString(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5,),*/
+                                    /*          Row(
+                                                children: [
+                                                  //NetworkImage(flips.url),
+                                                  Container(
+                                                    //width: 45,
+                                                    child:  const Text(
+                                                      "Rate: ",
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    //snapshot.data!.rates!.gbp!.currencyName.toString()
+                                                    snapshot.data!.rates!.gbp!.rate.toString(),
+                                                  ),
+                                                ],
+                                              ),*/
 
                                             ],
                                           ),
+                                          const Text('To',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17,
+                                          ),
+                                          ),
+
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child:  Text(
+                                                  snapshot.data!.rates!.gbp!.currencyName.toString()+": ",
+                                                  style: const TextStyle(
+                                                    color: Colors.indigo,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                //width: width1*0.57,
+                                                  //color: Colors.yellow,
+                                                  child: Text(snapshot.data!.rates!.gbp!.rateForAmount.toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.indigo,
+
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  ),
+                                              ),
+
+
+
+                                              /*       const SizedBox(height: 5,),
+                                              Row(
+                                                children: [
+                                                  //NetworkImage(flips.url),
+                                                  Container(
+                                                    //width: 45,
+                                                    child:  const Text(
+                                                      "Name: ",
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      snapshot.data!.rates!.gbp!.currencyName.toString()
+                                                    //snapshot.data!.rates!.gbp!.rate.toString(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5,),*/
+                                              /*          Row(
+                                                children: [
+                                                  //NetworkImage(flips.url),
+                                                  Container(
+                                                    //width: 45,
+                                                    child:  const Text(
+                                                      "Rate: ",
+                                                      //snapshot.data!.rates!.gbp!.currencyName.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    //snapshot.data!.rates!.gbp!.currencyName.toString()
+                                                    snapshot.data!.rates!.gbp!.rate.toString(),
+                                                  ),
+                                                ],
+                                              ),*/
+
+                                            ],
+                                          ),
+
+
+
+
+
+
+
+
+
+
+
+
+                                      /*    Column(
+                                            children: [
+                                              Container(
+                                                //width: 45,
+                                                child:  Text(snapshot.data!.rates!.gbp!.currencyName.toString(),
+                                                  style: const TextStyle(
+                                                      color: Colors.black87,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(snapshot.data!.rates!.gbp!.rateForAmount.toString()),
+                                            ],
+                                          ),*/
+
                                         ],
                                       ),
                                     ),
@@ -422,19 +622,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const Center(
                           child: Text("Choose Currency",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.indigo,
                             fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                          ),
+                            fontWeight: FontWeight.bold,
+                          )
                           ),
                           //child: CircularProgressIndicator(),
+
                         );
                       }
                     }
                 ),
               ),
               Container(
-                //color: Colors.yellow,
+               // color: Colors.green,
                 height: MediaQuery.of(context).size.height * 0.50,
                 width: MediaQuery.of(context).size.width * 0.86,
                 child: Column(
@@ -444,10 +645,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         DropdownButton<String>(
-                          icon: Icon(Icons.arrow_downward),
+                          icon: const Icon(Icons.arrow_downward),
                           iconSize: 24,
                           elevation: 16,
-                          style: TextStyle(color: Colors.indigo),
+                          style: const TextStyle(color: Colors.indigo),
                           underline: Container(
                             height: 2,
                             color: Colors.indigo,
@@ -456,7 +657,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           //dropdownColor: Colors.amber[300],
                           dropdownColor:  Colors.white,
                           hint: Text(from == null ? 'FROM' : from ??" ",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
@@ -467,7 +668,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               value: value,
                               child: Text(
                                 value,
-                                style: TextStyle(
+                                style: const TextStyle(
                                 ),
                               ),
                             );
@@ -478,19 +679,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           },
                         ),
-
                         DropdownButton<String>(
                           icon: Icon(Icons.arrow_downward),
                           iconSize: 24,
                           elevation: 16,
-                          style: TextStyle(color: Colors.indigo),
+                          style: const TextStyle(color: Colors.indigo),
                           underline: Container(
                             height: 2,
                             color: Colors.indigo,
                           ),
                           dropdownColor:  Colors.white,
                           hint: Text(to == null ? 'TO' : to ??"",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               //  color: Colors.grey
@@ -501,7 +701,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return DropdownMenuItem(
                               value: value,
                               child: Text(value,
-                                style: TextStyle(
+                                style: const TextStyle(
                                  // fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -525,6 +725,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 1.5,
                               )),
                         hintText: 'Enter Currency',
+
                       ),
                       onChanged: (val) => setState(() => quantity = val),
                     ),
@@ -536,6 +737,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 1.2, //width of the border
                       ),
 
+
                 /*      onPressed: () {
                         currency_exchange();
                        // Api_Manager().getData(from.toString(), to.toString(), quantity.toString());
@@ -544,11 +746,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pop(context);
                         print("************${from.toString()}***********${to.toString()}*****************${quantity.toString()}");
                       },*/
+
+
                       onPressed:(){
                         print("************${from.toString()}***********${to.toString()}*****************${quantity.toString()}");
                         currency_exchange(from.toString(), to.toString(), quantity.toString());
                       },
-                      child: Text("CONVERT",
+                      child: const Text("CONVERT",
                       style: TextStyle(
                           color:Colors.indigo
                       ),

@@ -52,14 +52,12 @@ class Currency {
 class Rates {
   Rates({this.gbp,});
   Gbp? gbp;
-
   factory Rates.fromJson(Map<String, dynamic> json) {
     print("json.keys: ${json.keys.first}");
     return Rates(
       gbp: Gbp.fromJson(json[json.keys.first.toString()]),
     );
   }
-
   /*Map<String, dynamic> toJson(key) => {
     key: gbp!.toJson(),
   };*/
