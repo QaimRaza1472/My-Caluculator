@@ -1,8 +1,11 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:calculatior_1/scientificCalculator.dart';
-import 'package:flutter/material.dart';
+import 'dart:collection';
 
-import 'Testing/exchange_screen.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:calculatior_1/Calculator/scientificCalculator.dart';
+import 'package:flutter/material.dart';
+import 'package:stack/stack.dart';
+import 'SharedPreference/testing_shared.dart';
+import 'MoneyExchange/exchange_screen.dart';
 
  class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _currentIndex = 0;
   int? selected;
-
+@override
+  void initState() {
+        super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,13 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.replay_5_outlined),
             title: const Text('Exchange'),
             activeColor: Colors.white,
-            //inactiveColor: Colors.white.withOpacity(0.8),
 
+            //inactiveColor: Colors.white.withOpacity(0.8),
             //inactiveColor: Colors.indigo.withOpacity(0.8),
             //activeColor: Colors.indigo,
 
             textAlign: TextAlign.center,
-
           ),
 
           BottomNavyBarItem(
@@ -63,8 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
               'Subscription',
             ),
             activeColor: Colors.white
-
-
             //inactiveColor: Colors.indigo.withOpacity(0.8),
             //activeColor: Colors.indigo,
           ),
@@ -75,12 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
         body:_currentIndex==0?
         ScientificCalculator():
-        _currentIndex==1?
-            CurrencyExchange()
-            :Container(
-          color: Colors.yellow,
-        )
-
+        _currentIndex==1 ?
+              const CurrencyExchange()
+            :const SharedPreferencesDemo()
     );
   }
 }

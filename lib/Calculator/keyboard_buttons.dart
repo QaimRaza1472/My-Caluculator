@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 typedef void CallbackButtonTap({String buttonText});
 
 class KeyboardButtons extends StatelessWidget {
-  KeyboardButtons({required this.buttons, required this.onTap});
+  const KeyboardButtons({required this.buttons, required this.onTap});
 
   final String buttons;
   final CallbackButtonTap onTap;
@@ -68,7 +68,7 @@ class KeyboardButtons extends StatelessWidget {
           color: (buttons == EQUAL_SIGN)
               ? Theme.of(context).primaryColor
               :const Color(0xFFFFFFFF),
-          padding: EdgeInsets.symmetric(vertical: 10.0,),
+          padding: const EdgeInsets.symmetric(vertical: 10.0,),
           child: Text(
             buttons,
             style: TextStyle(

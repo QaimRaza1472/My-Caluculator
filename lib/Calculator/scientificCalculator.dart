@@ -1,7 +1,11 @@
+import 'dart:collection';
+import 'dart:ffi';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'keyboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stack/stack.dart';
 
 String firstOperand = '0';
 String secondOperand = '';
@@ -9,18 +13,26 @@ String operators = '';
 String equation = '0';
 String result = '';
 
+
 class ScientificCalculator extends StatefulWidget {
+  const ScientificCalculator({Key? key}) : super(key: key);
+
   @override
   _ScientificCalculatorState createState() => _ScientificCalculatorState();
 }
 
 class _ScientificCalculatorState extends State<ScientificCalculator> {
+
+
   bool scientificKeyboard = false;
 
   @override
   void initState() {
     super.initState();
+     getValue();
+   // setValue();
     initialise();
+
   }
 
   String expression = '';
@@ -61,7 +73,8 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
               if (secondOperand == '') secondOperand = '';
             }
           }
-        });
+        }
+        );
         break;
       case EQUAL_SIGN:
         if (result == '') {
@@ -75,6 +88,8 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
     }
   }
 
+
+
   void _clear() {
     firstOperand = '0';
     secondOperand = '';
@@ -86,7 +101,49 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
     resultFontSize = 25.0;
   }
 
-  void _simpleOperands(value) {
+
+
+
+
+
+
+    List<String>? calValue;
+  final myStack = Stack<String>();
+
+     Future <void> setValue() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    String total_result=(firstOperand+operators+secondOperand+"="+result).toString();
+    myStack.push(total_result);
+    pref.setStringList("cal_value", myStack.getStack());
+  }
+
+
+
+  Future <void> getValue() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    //calValue = pref.getString('cal_value') ;
+    calValue = pref.getStringList('cal_value');
+    print("**********test1***********:${calValue}" );
+    setState(() {
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+  /////////////////////////////////////////////////////////////////////////////////
+
+  Future <void> _simpleOperands(value) async {
+
     setState(() {
       equationFontSize = 35.0;
       resultFontSize = 25.0;
@@ -94,12 +151,14 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
         case MODULAR_SIGN:
           if (result != '') {
             firstOperand = (double.parse(result) / 100).toString();
+
+           // int count  =  _prefs.setInt('counter', firstOperand);
+            //setValue(,);
+
           } else if (operators != '') {
             if (secondOperand != "") {
               if (operators == PLUS_SIGN || operators == MINUS_SIGN) {
-                secondOperand = ((double.parse(firstOperand) / 100) *
-                        double.parse(secondOperand))
-                    .toString();
+                secondOperand = ((double.parse(firstOperand) / 100) * double.parse(secondOperand)).toString();
               } else if (operators == MULTIPLICATION_SIGN ||
                   operators == DIVISION_SIGN) {
                 secondOperand = (double.parse(secondOperand) / 100).toString();
@@ -111,14 +170,10 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
             }
           }
           if (firstOperand.toString().endsWith(".0")) {
-            firstOperand =
-                int.parse(firstOperand.toString().replaceAll(".0", ""))
-                    .toString();
+            firstOperand = int.parse(firstOperand.toString().replaceAll(".0", "")).toString();
           }
           if (secondOperand.toString().endsWith(".0")) {
-            secondOperand =
-                int.parse(secondOperand.toString().replaceAll(".0", ""))
-                    .toString();
+            secondOperand = int.parse(secondOperand.toString().replaceAll(".0", "")).toString();
           }
           break;
         case DECIMAL_POINT_SIGN:
@@ -164,10 +219,14 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
             firstOperand == ZERO ? firstOperand = value : firstOperand += value;
           }
       }
-    });
+    }
+    );
   }
 
+
   void _simpleResult() {
+    setValue();
+    getValue();
     setState(() {
       equationFontSize = 25.0;
       resultFontSize = 35.0;
@@ -184,8 +243,10 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
       } catch (e) {
         result = CALCULATE_ERROR;
       }
-    });
+    }
+    );
   }
+
 
   void _scientificOperands(value) {
     setState(() {
@@ -235,27 +296,94 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
   _isIntResult() {
     if (result.toString().endsWith(".0")) {
       result = int.parse(result.toString().replaceAll(".0", "")).toString();
+     // setValue();
     }
   }
+
+  bool show_history=false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculator'),
         centerTitle: true,
         elevation: 3,
+        title: const Text("Calculator"),
+        actions: [
+          PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: const Text("History"),
+                  value: 1,
+                  onTap: (){
+                    setState(() {
+                      show_history=true;
+                      getValue();
+                      //setValue();
+                      print("Show Stack");
+                    });
+                  },
+                ),
+
+                PopupMenuItem(
+                  child: const Text("Show Stack"),
+                  value: 2,
+                  onTap: (){
+                    print("Show Stack");
+                    myStack.getStack();
+                  },
+                ),
+
+              ]
+          )
+        ],
       ),
+
+
       body: Container(
         child: Column(
           children: <Widget>[
             Expanded(
                 child: Container(
-              //color: Colors.yellow,
-            )),
+
+                color: Colors.yellow,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      show_history?
+                      Container(
+                        height: 200,
+                        width: 100,
+                        color: Colors.green,
+                        child: ListView.builder(
+                            itemCount: calValue?.length,
+                            itemBuilder:(context,index){
+                              return Padding(
+                                padding: const EdgeInsets.only(left:8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                  Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(calValue?[index] ??"")),
+
+                                 // Text(calValue![1]),
+                                    //Text(calValue![2]),
+                                  ],
+                                ),
+                              );
+                        },
+                        ),
+                      ):Container()
+                    ],
+                  ),
+                ),
+            ),
+            //SizedBox(height: 100, ),
 
             Container(
-             // color: Colors.yellow,
+              color: Colors.green,
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: SingleChildScrollView(
@@ -282,17 +410,21 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                           _inOutExpression(equation, equationFontSize),
                           result != ''
                               ? _inOutExpression(result, resultFontSize)
-                              : Container(),
+                              : Container(
+                            //color: Colors.deepPurpleAccent,
+                          ),
                         ],
                       ),
               ),
             ),
+
             Keyboard(
               keyboardSigns: (scientificKeyboard)
                   ? keyboardScientificCalculator
                   : keyboardSingleCalculator,
               onTap: _onPressed,
             ),
+
           ],
         ),
       ),
@@ -308,7 +440,8 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
       child: Text(
         text is double ? text.toStringAsFixed(2) : text.toString(),
         style: TextStyle(
-          color: Color(0xFF444444),
+          //color: const Color(0xFF444444),
+          color: Colors.red,
           fontSize: size,
          // fontWeight: FontWeight.w600
         ),
@@ -317,3 +450,26 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
     );
   }
 }
+
+class Stack<E> {
+  final _list = <E>[];
+
+  void push(E value) => _list.add(value);
+
+  E pop() => _list.removeLast();
+
+  getStack(){
+    print("-------------MY All Stack Values  ------------${_list}");
+    return _list;
+  }
+
+  E get peek => _list.last;
+
+  bool get isEmpty => _list.isEmpty;
+  bool get isNotEmpty => _list.isNotEmpty;
+
+  @override
+  String toString() => _list.toString();
+}
+
+
