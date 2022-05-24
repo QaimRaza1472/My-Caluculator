@@ -132,19 +132,28 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
 
 
 
+  Future <void> pop_values()async{
+
+   final SharedPreferences pref = await SharedPreferences.getInstance();
+
+   // final success = await pref.remove('cal_value');
+
+     await pref.remove('cal_value');
+     print('---------------  Pref GetKeys  -------------');
+     print(pref.containsKey('cal_value'));
+
+
+     //myStack.pop();
+  }
 
 
 
-
-
-
-
-
-  /////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   Future <void> _simpleOperands(value) async {
 
     setState(() {
+      show_history=false;
       equationFontSize = 35.0;
       resultFontSize = 25.0;
       switch (value) {
@@ -227,6 +236,7 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
   void _simpleResult() {
     setValue();
     getValue();
+
     setState(() {
       equationFontSize = 25.0;
       resultFontSize = 35.0;
@@ -304,6 +314,9 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
 
   @override
   Widget build(BuildContext context) {
+    var height1=MediaQuery.of(context).size.height;
+    var width1=MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -319,13 +332,14 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                     setState(() {
                       show_history=true;
                       getValue();
+                      _clear();
                       //setValue();
-                      print("Show Stack");
+
                     });
                   },
                 ),
 
-                PopupMenuItem(
+              /*  PopupMenuItem(
                   child: const Text("Show Stack"),
                   value: 2,
                   onTap: (){
@@ -333,7 +347,7 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                     myStack.getStack();
                   },
                 ),
-
+*/
               ]
           )
         ],
@@ -345,41 +359,103 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
           children: <Widget>[
             Expanded(
                 child: Container(
-
-                color: Colors.yellow,
+               //color: Colors.orange,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       show_history?
-                      Container(
-                        height: 200,
-                        width: 100,
-                        color: Colors.green,
-                        child: ListView.builder(
-                            itemCount: calValue?.length,
-                            itemBuilder:(context,index){
-                              return Padding(
-                                padding: const EdgeInsets.only(left:8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                  Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(calValue?[index] ??"")),
+                      Column(
+                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
 
-                                 // Text(calValue![1]),
-                                    //Text(calValue![2]),
-                                  ],
+                          Container(
+                            height: height1*0.29,
+                            width: width1,
+                           // color: Colors.yellow,
+                            child: Container(
+                              //height: height1*0.29,
+                              //width: 200,
+
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                               // color: Colors.orange,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 0),
+                                  )
+                                ]
+                              ),
+
+                              //color: Colors.green,
+                              child:calValue!=null? Padding(
+                                padding: const EdgeInsets.only(top:3.0),
+                                child: ListView.builder(
+                                    itemCount: calValue?.length,
+                                    itemBuilder:(context,index){
+                                      return Padding(
+                                        padding: const EdgeInsets.only(left:8.0,top:1),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                           Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                  calValue?[index] ??"")
+                                          ) ,
+                                            //Text(calValue![2]),
+                                          ],
+                                        ),
+                                      );
+                                },
                                 ),
-                              );
-                        },
-                        ),
+                              ):const Center(
+                                  child: Text("No History"),
+                              ),
+                            ),
+                          ),
+
+                          TextButton(
+                            onPressed: (){
+
+                              pop_values();
+
+                              myStack.pop();
+                              getValue();
+
+                               setState((){
+                                //pop_values();
+                               // calValue?.clear();
+
+                                show_history=false;
+
+                               // final SharedPreferences pref = await SharedPreferences.getInstance();
+
+                              // final success = await pref.remove('cal_value');
+
+                                //await pref.remove('cal_value');
+
+                              });
+
+                              //pop_values();
+                              //myStack.pop();
+
+                              print("Pop Printed............");
+                            },
+                            child: const Text('Clear'),
+                          ),
+                        ],
                       ):Container()
                     ],
                   ),
+
                 ),
             ),
+
             //SizedBox(height: 100, ),
 
             Container(
@@ -440,9 +516,12 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
       child: Text(
         text is double ? text.toStringAsFixed(2) : text.toString(),
         style: TextStyle(
+
           //color: const Color(0xFF444444),
-          color: Colors.red,
+
+          //color: Colors.red,
           fontSize: size,
+
          // fontWeight: FontWeight.w600
         ),
         textAlign: TextAlign.end,
@@ -456,20 +535,37 @@ class Stack<E> {
 
   void push(E value) => _list.add(value);
 
-  E pop() => _list.removeLast();
+ //E pop() => _list.removeLast();
+
+ //void pop() => _list.remove(true);
+
+ // E pop() => _list.removeLast();
+
+   pop(){
+     return _list.remove(true);
+   }
+
 
   getStack(){
-    print("-------------MY All Stack Values  ------------${_list}");
+    print("-------------MY All Stack Values  ------------ ${_list}");
     return _list;
   }
 
-  E get peek => _list.last;
 
+  E get peek => _list.last;
   bool get isEmpty => _list.isEmpty;
   bool get isNotEmpty => _list.isNotEmpty;
 
   @override
   String toString() => _list.toString();
 }
+
+
+
+
+
+
+
+
 
 
