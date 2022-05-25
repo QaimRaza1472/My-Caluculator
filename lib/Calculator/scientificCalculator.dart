@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:ffi';
+import 'dart:ui';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
@@ -32,16 +33,17 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
      getValue();
    // setValue();
     initialise();
-
   }
+
+
 
   String expression = '';
   double equationFontSize = 35.0;
   double resultFontSize = 25.0;
-
   void initialise() {}
-
   void _onPressed({String? buttonText}) {
+
+
     switch (buttonText) {
       case EXCHANGE_CALCULATOR:
         setState(() {
@@ -89,7 +91,6 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
   }
 
 
-
   void _clear() {
     firstOperand = '0';
     secondOperand = '';
@@ -98,52 +99,72 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
     result = '';
     expression = '';
     equationFontSize = 35.0;
-    resultFontSize = 25.0;
+    resultFontSize =  25.0;
   }
-
-
-
-
-
-
 
     List<String>? calValue;
-  final myStack = Stack<String>();
+    final myStack = Stack<String>();
+
+
 
      Future <void> setValue() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    String total_result=(firstOperand+operators+secondOperand+"="+result).toString();
-    myStack.push(total_result);
-    pref.setStringList("cal_value", myStack.getStack());
-  }
+
+       //final SharedPreferences pref = await SharedPreferences.getInstance();
+       pref = await SharedPreferences.getInstance();
+
+      //String total_result =(firstOperand+operators+secondOperand+"="+result).toString();
+
+       String my_expression = (expression+"=");
+
+       String total_result =(my_expression+result).toString();
+
+       myStack.push(total_result);
+       pref.setStringList("cal_value", myStack.getStack());
+
+     //  myStack.pop();
+
+
+     }
+
+
 
 
 
   Future <void> getValue() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
+   // final SharedPreferences pref = await SharedPreferences.getInstance();
+
+    pref = await SharedPreferences.getInstance();
     //calValue = pref.getString('cal_value') ;
     calValue = pref.getStringList('cal_value');
     print("**********test1***********:${calValue}" );
+
     setState(() {
     });
   }
 
+
+
+
 /////////////////////////////////////////////////////////////////////////////////
 
+  late SharedPreferences pref ;
 
+     delete_values()async{
 
-  Future <void> pop_values()async{
+    //final SharedPreferences pref = await SharedPreferences.getInstance();
 
-   final SharedPreferences pref = await SharedPreferences.getInstance();
+     // final success = await pref.remove('cal_value');
+    //  myStack.pop();
+       pref = await SharedPreferences.getInstance();
 
-   // final success = await pref.remove('cal_value');
+      pref.remove('cal_value');
+       //await pref.clear();
 
-     await pref.remove('cal_value');
      print('---------------  Pref GetKeys  -------------');
      print(pref.containsKey('cal_value'));
+      setState(() {
 
-
-     //myStack.pop();
+      });
   }
 
 
@@ -151,7 +172,6 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
   //////////////////////////////////////////////////////////////////////////////
 
   Future <void> _simpleOperands(value) async {
-
     setState(() {
       show_history=false;
       equationFontSize = 35.0;
@@ -235,7 +255,7 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
 
   void _simpleResult() {
     setValue();
-    getValue();
+    //getValue();
 
     setState(() {
       equationFontSize = 25.0;
@@ -339,6 +359,8 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                   },
                 ),
 
+
+
               /*  PopupMenuItem(
                   child: const Text("Show Stack"),
                   value: 2,
@@ -348,6 +370,8 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                   },
                 ),
 */
+
+
               ]
           )
         ],
@@ -370,7 +394,7 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                         children: [
 
                           Container(
-                            height: height1*0.29,
+                            height:scientificKeyboard ? height1*0.19:height1*0.28,
                             width: width1,
                            // color: Colors.yellow,
                             child: Container(
@@ -379,7 +403,8 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
 
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                               // color: Colors.orange,
+
+                                //color: Colors.orange,
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
@@ -405,7 +430,14 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                                            Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                  calValue?[index] ??"")
+                                                  calValue?[index] ??"",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black.withOpacity(0.8),
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 1.1,
+                                              ),
+                                              )
                                           ) ,
                                             //Text(calValue![2]),
                                           ],
@@ -422,12 +454,19 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                           TextButton(
                             onPressed: (){
 
-                              pop_values();
+                              //pop_values();
 
+
+                              delete_values();
                               myStack.pop();
-                              getValue();
 
-                               setState((){
+                              //myStack.pop();
+
+
+
+                              //getValue();
+
+                              /* setState((){
                                 //pop_values();
                                // calValue?.clear();
 
@@ -440,13 +479,34 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
                                 //await pref.remove('cal_value');
 
                               });
+*/
 
                               //pop_values();
                               //myStack.pop();
 
                               print("Pop Printed............");
+
+                              Future.delayed(const Duration(milliseconds: 200), () {
+                                setState((){
+                                  //pop_values();
+                                  // calValue?.clear();
+
+                                  show_history=false;
+                                  // final SharedPreferences pref = await SharedPreferences.getInstance();
+
+                                  // final success = await pref.remove('cal_value');
+
+                                  //await pref.remove('cal_value');
+
+                                });
+                              });
+                              
                             },
-                            child: const Text('Clear'),
+                            child: const Text('Clear',style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            ),
                           ),
                         ],
                       ):Container()
@@ -459,7 +519,7 @@ class _ScientificCalculatorState extends State<ScientificCalculator> {
             //SizedBox(height: 100, ),
 
             Container(
-              color: Colors.green,
+            //  color: Colors.green,
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: SingleChildScrollView(
@@ -537,13 +597,14 @@ class Stack<E> {
 
  //E pop() => _list.removeLast();
 
- //void pop() => _list.remove(true);
+
+  pop() => _list.clear();
 
  // E pop() => _list.removeLast();
 
-   pop(){
+/*   pop(){
      return _list.remove(true);
-   }
+   }*/
 
 
   getStack(){
